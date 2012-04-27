@@ -23,6 +23,13 @@ for file_data in files:
     source = file_data['source']
     split_source = urlparse.urlsplit(source)
     filename = split_source.path.split('/')[-1]
+    if not 'destination' in file_data:
+        destination = filename
+    else:
+        if file_data['destination'][-1] == '/':
+            destination = file_data['destination'] + filename
+        else:
+            destination = file_data['destination']
     sys.stdout.write('downloading %s' % source)
-    urllib.urlretrieve(source, filename)
+    urllib.urlretrieve(source, destination)
     sys.stdout.write(' done\n')
